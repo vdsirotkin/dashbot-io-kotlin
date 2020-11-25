@@ -1,7 +1,9 @@
 package com.vdsirotkin.dashbot.client
 
 import com.vdsirotkin.dashbot.dto.TrackRequest
+import org.springframework.web.reactive.function.BodyExtractors
 import org.springframework.web.reactive.function.BodyInserters
+import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitExchange
 
@@ -13,16 +15,16 @@ class TrackClient(
     private val REST_VERSION = "10.1.1-rest"
     private val PLATFORM = "universal"
 
-    suspend fun incoming(trackRequest: TrackRequest) {
-        track(trackRequest, Direction.INCOMING)
+    suspend fun incoming(trackRequest: TrackRequest): ClientResponse {
+        return track(trackRequest, Direction.INCOMING)
     }
 
-    suspend fun outgoing(trackRequest: TrackRequest) {
-        track(trackRequest, Direction.OUTGOING)
+    suspend fun outgoing(trackRequest: TrackRequest): ClientResponse {
+        return track(trackRequest, Direction.OUTGOING)
     }
 
-    private suspend fun track(trackRequest: TrackRequest, direction: Direction) {
-        webClient
+    private suspend fun track(trackRequest: TrackRequest, direction: Direction): ClientResponse {
+        return webClient
             .post()
             .uri {
                 it.path("/track")
